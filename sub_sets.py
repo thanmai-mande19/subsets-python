@@ -1,67 +1,57 @@
 
 
-class players:
-    shirt_num=0
-    goals=0
-    def __init__(self,shirt,goals):
-        self.goals=goals
-        self.shirt_num=shirt
-    def shirt(self):
-        return self.shirt_num
-    def goals_r(self):
-        return self.goals
-    def scored(self):
-        self.goals+=1
 
-
-def rec_sets(arr,size,index,final):
+def rec_sets(set,size,index,final_subset):
 
     if(index==-1):
         empty=[]
-        final.append(empty)
-        rec_sets(arr,size,0,final)
+        final_subset.append(empty)
+        rec_sets(set,size,0,final_subset)
 
     elif(index<size):
-        element=arr[index]
-        v=0
-        z=len(final)
-        while(v<z):
-            x=final[v]
-            x_y=[]
-            for t in x:
-                x_y.append(t)
-            x_y.append(element)
-            final.append(x_y)
-            v+=1
+        element=set[index]  #new element to add
+        inital=0
+        len_set=len(final_subset)
+        while(inital<len_set):
+            sub=final_subset[inital]   #subset already in the final_subset
+            copy_sub=[] #copy the subset
+            for num in sub:
+                copy_sub.append(num)    #copy the elements
+            copy_sub.append(element)
+            final_subset.append(copy_sub)
+            inital+=1
 
-        rec_sets(arr,size,index+1,final)
+        rec_sets(set,size,index+1,final_subset)
 
 
 def sub_sets():
 
-    array=[]
-    final=[]
+    set=[]
+    final_subset=[]
 
     numbers=(input("Enter the numbers: "))
 
     tokens=numbers.split(",")
 
     for i in tokens:
-        array.append(int(i))
+        if "[" in i:
+            sub_tokens=i.split("[")
+            i=sub_tokens[1]
+        elif "]" in i:
+            sub_tokens=i.split("]")
+            i=sub_tokens[0]
+        set.append(int(i))
 
-    rec_sets(array,array.__len__(),-1,final)
 
-    print(final)
+
+    rec_sets(set,set.__len__(),-1,final_subset)
+
+    print(final_subset)
 
 
 
 def main():
-    #sub_sets()
-    hazard=players(10,70)
-
-    print(hazard.goals_r())
-    hazard.scored()
-    print(hazard.goals_r())
+    sub_sets()
 
 if __name__ == '__main__':
     main()
